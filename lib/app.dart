@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:github_search_flutter/home.dart';
 import 'package:github_search_flutter/login.dart';
 
 
@@ -17,6 +18,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/login',
       routes: {
         '/login': (BuildContext context) => const LoginPage(),
+        '/': (BuildContext context) => HomePage()
       },
     );
   }
