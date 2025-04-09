@@ -75,7 +75,22 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            if (_isSearching) Text('search') else Text('data'),
+            const SizedBox(height: 30.0,),
+            if (_isSearching)
+              for (int i = 0; i<_searchResults.length; i++) Text(_searchResults[i])
+              /*Column(
+                children: <Widget>[
+                  //for (int i = 0; i<_searchResults.length; i++) Text(_searchResults[i]),
+                  ListView.builder(
+                    itemCount: _searchResults.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(title: Text(_searchResults[index], style: Theme.of(context).textTheme.headlineLarge,));
+                    },
+                  ),
+                ],
+              )*/
+            else
+              Text('data'),
             /*_isSearching && _searchResults.isNotEmpty
                 ? Text(_searchResults.length.toString())
                 : Text('data'),*/
