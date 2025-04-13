@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:github_search_flutter/repo_detail.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,10 +76,21 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 30.0,),
+            const SizedBox(height: 30.0),
             if (_isSearching)
-              for (int i = 0; i<_searchResults.length; i++) Text(_searchResults[i])
-              /*Column(
+              for (int i = 0; i < _searchResults.length; i++)
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RepoDetail(),
+                      ),
+                    );
+                  },
+                  child: Text(_searchResults[i]),
+                )
+            /*Column(
                 children: <Widget>[
                   //for (int i = 0; i<_searchResults.length; i++) Text(_searchResults[i]),
                   ListView.builder(
