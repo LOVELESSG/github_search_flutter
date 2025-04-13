@@ -7,6 +7,10 @@ class RepoDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.bug_report),
+      ),
       body: SafeArea(
         child: Center(
           child: Container(
@@ -25,7 +29,7 @@ class RepoDetail extends StatelessWidget {
                       backgroundColor: Colors.grey[300],
                       child: Text('A'),
                     ),
-                    SizedBox(width: 8.0,),
+                    SizedBox(width: 8.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -47,9 +51,7 @@ class RepoDetail extends StatelessWidget {
                             children: [Icon(Icons.star_border), Text('0')],
                           ),
                           SizedBox(width: 8.0),
-                          Column(
-                            children: [Icon(Icons.call_split), Text('0')],
-                          ),
+                          Column(children: [Icon(Icons.call_split), Text('0')]),
                           SizedBox(width: 8.0),
                           Column(
                             children: [
