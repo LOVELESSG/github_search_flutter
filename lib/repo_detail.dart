@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github_search_flutter/components/rounded_image_container.dart';
+import 'package:github_search_flutter/issue_list.dart';
 
 class RepoDetail extends StatelessWidget {
   const RepoDetail({super.key});
@@ -8,7 +9,12 @@ class RepoDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const IssueList()),
+          );
+        },
         child: const Icon(Icons.bug_report),
       ),
       body: SafeArea(
