@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:github_search_flutter/issue_detail.dart';
 
 class IssueList extends StatefulWidget {
   const IssueList({super.key});
@@ -97,36 +98,44 @@ class IssueItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(8.0),
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              issue['title'],
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              issue['body'] != null && issue['body'].isNotEmpty
-                  ? issue['body'].split('\n').first
-                  : 'No description',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Created: ${DateTime.parse(issue['created_at']).toLocal().toString().split(' ').first}',
-                ),
-                Text('Comments: ${issue['comments']}'),
-              ],
-            ),
-          ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => IssueDetail()),
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.all(8.0),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                issue['title'],
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                issue['body'] != null && issue['body'].isNotEmpty
+                    ? issue['body'].split('\n').first
+                    : 'No description',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Created: ${DateTime.parse(issue['created_at']).toLocal().toString().split(' ').first}',
+                  ),
+                  Text('Comments: ${issue['comments']}'),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
