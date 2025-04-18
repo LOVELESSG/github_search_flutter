@@ -66,36 +66,27 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
+        //backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
       ),
       body: Column(
         children: <Widget>[
-          TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              hintText: 'Search repository...',
-              prefix: Icon(Icons.search),
-              suffixIcon:
-                  _isSearching && _searchText.isNotEmpty
-                      ? IconButton(
-                        onPressed: _stopSearching,
-                        icon: Icon(Icons.clear),
-                      )
-                      : null,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide.none,
-              ),
-              filled: true,
-              fillColor: Colors.grey[200],
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 12,
-              ),
+          Container(
+            padding: EdgeInsets.all(8.0),
+            child: SearchBar(
+              controller: _searchController,
+              leading: const Icon(Icons.search),
+              trailing: [
+                if (_searchText.isNotEmpty)
+                  IconButton(
+                    onPressed: _stopSearching,
+                    icon: const Icon(Icons.clear),
+                  ),
+              ],
+              elevation: WidgetStateProperty.all(0),
+              onChanged: _updateSearch,
+              onSubmitted: _searchRepo,
             ),
-            onChanged: _updateSearch,
-            onSubmitted: _searchRepo,
           ),
           const SizedBox(height: 20.0),
           if (_isSearching)
@@ -148,65 +139,6 @@ class _HomePageState extends State<HomePage> {
             ),
         ],
       ),
-      /*body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          children: <Widget>[
-            const SizedBox(height: 200.0),
-            Text(
-              'Repo Search',
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-            SearchBar(
-              controller: _searchController,
-              hintText: 'Search...',
-              onChanged: _updateSearch,
-              onSubmitted: _searchRepo,
-              leading: const Icon(Icons.search),
-              trailing: [
-                IconButton(
-                  onPressed: _stopSearching,
-                  icon: const Icon(Icons.clear),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30.0),
-            if (_isSearching)
-              for (int i = 0; i < _searchResults.length; i++)
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RepoDetail(),
-                      ),
-                    );
-                  },
-                  child: Text(_searchResults[i]),
-                )
-            */
-      /*Column(
-                children: <Widget>[
-                  //for (int i = 0; i<_searchResults.length; i++) Text(_searchResults[i]),
-                  ListView.builder(
-                    itemCount: _searchResults.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(title: Text(_searchResults[index], style: Theme.of(context).textTheme.headlineLarge,));
-                    },
-                  ),
-                ],
-              )*/
-      /*
-            else
-              Text('data'),
-            */
-      /*_isSearching && _searchResults.isNotEmpty
-                ? Text(_searchResults.length.toString())
-                : Text('data'),*/
-      /*
-          ],
-        ),
-      ),*/
     );
   }
 }
