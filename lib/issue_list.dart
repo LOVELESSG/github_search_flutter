@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:github_search_flutter/edit_issue.dart';
 import 'package:github_search_flutter/issue_detail.dart';
 
 class IssueList extends StatefulWidget {
@@ -31,12 +32,17 @@ class _IssueListState extends State<IssueList> {
   }
 }
 
-class IssueListContent extends StatelessWidget {
+class IssueListContent extends StatefulWidget {
   final String state;
 
-  IssueListContent({super.key, required this.state});
+  IssueListContent({required this.state});
 
-  final List<Map<String, dynamic>> openIssueSamples = [
+  @override
+  State<IssueListContent> createState() => _IssueListContentState();
+}
+
+class _IssueListContentState extends State<IssueListContent> {
+  List<Map<String, dynamic>> openIssueSamples = [
     {
       'title': 'Issue 1: Internet Error',
       'body':
@@ -60,7 +66,7 @@ class IssueListContent extends StatelessWidget {
     },
   ];
 
-  final List<Map<String, dynamic>> closedIssueSamples = [
+  List<Map<String, dynamic>> closedIssueSamples = [
     {
       'title': 'Issue 4:  Fixed crash issues',
       'body':
@@ -77,15 +83,37 @@ class IssueListContent extends StatelessWidget {
     },
   ];
 
+  void _deleteIssue(int index, String state) {
+    setState(() {
+      if (state == 'open') {
+        openIssueSamples.removeAt(index);
+      } else {
+        closedIssueSamples.removeAt(index);
+      }
+    });
+  }
+
+  void _editIssue(int index, String state) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditIssue()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final issues = state == 'open' ? openIssueSamples : closedIssueSamples;
+    final issues =
+        widget.state == 'open' ? openIssueSamples : closedIssueSamples;
 
     return ListView.builder(
       itemCount: issues.length,
       itemBuilder: (context, index) {
         final issue = issues[index];
-        return IssueItem(issue: issue);
+        return IssueItem(
+          issue: issue,
+          onDelete: () => _deleteIssue(index, widget.state),
+          onEdit: () => _editIssue(index, widget.state),
+        );
       },
     );
   }
@@ -93,8 +121,14 @@ class IssueListContent extends StatelessWidget {
 
 class IssueItem extends StatelessWidget {
   final Map<String, dynamic> issue;
+  final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
-  IssueItem({required this.issue});
+  IssueItem({
+    required this.issue,
+    required this.onDelete,
+    required this.onEdit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +146,34 @@ class IssueItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                issue['title'],
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      issue['title'],
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  PopupMenuButton<String>(
+                    onSelected: (value) {
+                      if (value == 'delete') {
+                        onDelete();
+                      } else if (value == 'edit') {
+                        onEdit();
+                      }
+                    },
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        PopupMenuItem(value: 'delete', child: Text('Delete')),
+                        PopupMenuItem(value: 'edit', child: Text('Edit'))
+                      ];
+                    },
+                  ),
+                ],
               ),
               SizedBox(height: 8),
               Text(

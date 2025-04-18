@@ -20,6 +20,11 @@ class IssueDetail extends StatelessWidget {
       'body': 'Thanks for the confirmation. We will investigate.',
       'created_at': '2023-10-27T14:00:00Z',
     },
+    {
+      'author': 'octocat',
+      'body': 'Thanks for the confirmation. We will investigate.',
+      'created_at': '2023-10-27T14:00:00Z',
+    },
   ];
 
   @override
@@ -51,30 +56,33 @@ class IssueDetail extends StatelessWidget {
             Column(
               children:
                   comments.map((comment) {
-                    return Card(
-                      margin: EdgeInsets.symmetric(vertical: 8.0),
-                      child: Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  '${comment['author']}',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 4.0),
-                                Text(comment['body']),
-                                SizedBox(height: 4.0),
-                                Text(
-                                  'Created at: ${DateTime.parse(issue['created_at']).toLocal().toString().split(' ').first}',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ],
+                    return SizedBox(
+                      width: double.infinity,
+                      child: Card(
+                        margin: EdgeInsets.symmetric(vertical: 8.0),
+                        child: Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    '${comment['author']}',
+                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 4.0),
+                                  Text(comment['body']),
+                                  SizedBox(height: 4.0),
+                                  Text(
+                                    'Created at: ${DateTime.parse(issue['created_at']).toLocal().toString().split(' ').first}',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
