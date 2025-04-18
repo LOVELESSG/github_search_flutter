@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:github_search_flutter/home.dart';
 import 'package:github_search_flutter/login.dart';
 
@@ -20,6 +21,9 @@ class _MyAppState extends State<MyApp> {
         '/login': (BuildContext context) => const LoginPage(),
         '/': (BuildContext context) => HomePage()
       },
+      localizationsDelegates: [
+        FlutterQuillLocalizations.delegate,
+      ],
     );
   }
 }
