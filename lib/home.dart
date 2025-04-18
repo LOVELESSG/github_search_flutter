@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _searchController = TextEditingController();
   var _searchText = '';
-  var _items = [
+  final _items = [
     'flutter',
     'Kotlin',
     'Dart',
@@ -26,10 +26,16 @@ class _HomePageState extends State<HomePage> {
   void _updateSearch(String value) {
     setState(() {
       _searchText = value;
+      if (_searchText.isEmpty) {
+        _isSearching = false;
+        _searchResults = [];
+      }
     });
   }
 
   void _searchRepo(String value) {
+    if (_searchText.isEmpty) return;
+
     setState(() {
       _isSearching = true;
       _searchResults =
@@ -54,7 +60,95 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      appBar: AppBar(
+        title: Text(
+          'Repo Search',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
+        elevation: 0,
+      ),
+      body: Column(
+        children: <Widget>[
+          TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Search repository...',
+              prefix: Icon(Icons.search),
+              suffixIcon:
+                  _isSearching && _searchText.isNotEmpty
+                      ? IconButton(
+                        onPressed: _stopSearching,
+                        icon: Icon(Icons.clear),
+                      )
+                      : null,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                borderSide: BorderSide.none,
+              ),
+              filled: true,
+              fillColor: Colors.grey[200],
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 12,
+              ),
+            ),
+            onChanged: _updateSearch,
+            onSubmitted: _searchRepo,
+          ),
+          const SizedBox(height: 20.0),
+          if (_isSearching)
+            Expanded(
+              child:
+                  _searchResults.isEmpty
+                      ? Center(
+                        child: Text(
+                          'No results found for "$_searchText"',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      )
+                      : ListView.separated(
+                        separatorBuilder: (context, index) => Divider(),
+                        itemCount: _searchResults.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(_searchResults[index]),
+                            leading: Icon(Icons.book),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RepoDetail(),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+            )
+          else
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.folder_open, size: 60, color: Colors.grey[400]),
+                    SizedBox(height: 16),
+                    Text(
+                      'Explore repositories',
+                      style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
+      /*body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
@@ -90,7 +184,8 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Text(_searchResults[i]),
                 )
-            /*Column(
+            */
+      /*Column(
                 children: <Widget>[
                   //for (int i = 0; i<_searchResults.length; i++) Text(_searchResults[i]),
                   ListView.builder(
@@ -101,14 +196,17 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               )*/
+      /*
             else
               Text('data'),
-            /*_isSearching && _searchResults.isNotEmpty
+            */
+      /*_isSearching && _searchResults.isNotEmpty
                 ? Text(_searchResults.length.toString())
                 : Text('data'),*/
+      /*
           ],
         ),
-      ),
+      ),*/
     );
   }
 }
