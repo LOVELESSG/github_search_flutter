@@ -24,10 +24,15 @@ class _EditIssueState extends State<EditIssue> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Issue'),
-        actions: [IconButton(onPressed: () {
-          _saveIssue();
-          Navigator.pop(context);
-        }, icon: Icon(Icons.save))],
+        actions: [
+          IconButton(
+            onPressed: () {
+              _saveIssue();
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.save),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -43,9 +48,16 @@ class _EditIssueState extends State<EditIssue> {
             ),
             SizedBox(height: 16.0),
             Text('Issue Content:'),
-            QuillSimpleToolbar(
-              controller: _controller,
-              config: const QuillSimpleToolbarConfig(),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  QuillSimpleToolbar(
+                    controller: _controller,
+                    config: const QuillSimpleToolbarConfig(),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               child: Container(
